@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BYTEVERSE 2026 - Event Registration</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+    min-height:100vh;
+    background:linear-gradient(
+        135deg,
+        #064e3b,
+        #0d9488,
+        #f59e0b,
+        #f97316
+    );
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:40px 20px;
+    overflow-x:hidden;
+    position:relative;
+}
+
+body::before{
+    content:'';
+    position:absolute;
+    width:320px;
+    height:320px;
+    background:rgba(255,255,255,0.1);
+    border-radius:50%;
+    top:-100px;
+    right:-100px;
+}
+
+body::after{
+    content:'';
+    position:absolute;
+    width:400px;
+    height:400px;
+    background:rgba(255,255,255,0.08);
+    border-radius:50%;
+    bottom:-150px;
+    left:-150px;
+}
+
+.container{
+    width:100%;
+    max-width:1100px;
+    background:rgba(255,255,255,0.14);
+    backdrop-filter:blur(18px);
+    border:1px solid rgba(255,255,255,0.25);
+    border-radius:22px;
+    padding:40px;
+    box-shadow:0 20px 50px rgba(0,0,0,0.25);
+    color:white;
+    position:relative;
+    z-index:1;
+}
+
+.header{
+    text-align:center;
+    margin-bottom:26px;
+}
+
+.header h1{
+    font-size:48px;
+    color:#fff3d6;
+    margin-bottom:8px;
+    letter-spacing:1px;
+}
+
+.header p{
+    font-size:17px;
+    color:#f1f5f9;
+}
+
+.roll-badge{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    margin-top:14px;
+    padding:9px 20px;
+    border-radius:30px;
+    background:rgba(255,255,255,0.18);
+    border:1px solid rgba(255,255,255,0.3);
+    font-size:14px;
+    font-weight:500;
+    letter-spacing:0.5px;
+}
+
+.roll-badge b{
+    color:#fff3d6;
+    font-weight:700;
+}
+
+.badge{
+    display:inline-block;
+    margin-top:12px;
+    padding:9px 20px;
+    border-radius:30px;
+    background:rgba(255,255,255,0.15);
+    border:1px solid rgba(255,255,255,0.2);
+    font-size:14px;
+}
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:15px;
+    margin:26px 0;
+}
+
+.stat-card{
+    text-align:center;
+    padding:18px;
+    background:rgba(255,255,255,0.14);
+    border-radius:14px;
+}
+
+.stat-card h2{
+    color:#fff3d6;
+    font-size:26px;
+}
+
+.stat-card p{
+    font-size:13px;
+    margin-top:4px;
+    color:#e2e8f0;
+}
+
+.section-title{
+    background:linear-gradient(
+        90deg,
+        #f59e0b,
+        #d97706
+    );
+    padding:12px 20px;
+    border-radius:10px;
+    margin:24px 0 15px;
+    font-weight:600;
+    font-size:17px;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:18px;
+}
+
+.field{
+    display:flex;
+    flex-direction:column;
+}
+
+.field label{
+    margin-bottom:6px;
+    font-weight:500;
+    font-size:14px;
+}
+
+.field input,
+.field select,
+.field textarea{
+    padding:13px;
+    border:none;
+    border-radius:12px;
+    background:rgba(255,255,255,0.2);
+    color:white;
+    outline:none;
+    font-size:14px;
+}
+
+.field input[readonly]{
+    background:rgba(255,255,255,0.3);
+    font-weight:600;
+    letter-spacing:1px;
+    cursor:not-allowed;
+}
+
+.field input::placeholder,
+.field textarea::placeholder{
+    color:#e5f4f2;
+}
+
+.field select option{
+    color:black;
+}
+
+textarea{
+    resize:none;
+}
+
+.full{
+    grid-column:1/span 2;
+}
+
+.error-msg{
+    display:none;
+    grid-column:1/span 2;
+    background:rgba(220,38,38,0.25);
+    border:1px solid rgba(220,38,38,0.5);
+    color:#fee2e2;
+    padding:10px 14px;
+    border-radius:10px;
+    font-size:13px;
+    margin-bottom:6px;
+}
+
+.submit-btn{
+    width:100%;
+    margin-top:25px;
+    padding:16px;
+    border:none;
+    border-radius:15px;
+    background:linear-gradient(
+        90deg,
+        #f59e0b,
+        #f97316,
+        #0d9488
+    );
+    color:white;
+    font-size:18px;
+    font-weight:700;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.submit-btn:hover{
+    transform:translateY(-3px);
+    box-shadow:0 12px 25px rgba(249,115,22,0.4);
+}
+
+#success{
+    display:none;
+    margin-top:20px;
+    text-align:center;
+    padding:15px;
+    border-radius:12px;
+    background:rgba(34,197,94,0.2);
+    border:1px solid rgba(34,197,94,0.4);
+    color:#d1fae5;
+    font-weight:600;
+}
+
+.footer{
+    text-align:center;
+    margin-top:20px;
+    color:#f1f5f9;
+    font-size:13px;
+}
+
+@media(max-width:768px){
+
+    .grid{
+        grid-template-columns:1fr;
+    }
+
+    .full{
+        grid-column:auto;
+    }
+
+    .stats{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .header h1{
+        font-size:34px;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="header">
+    <h1>💻 BYTEVERSE 2026</h1>
+    <p>Ideas • Innovation • Impact</p>
+    <div class="badge">Registration Open</div>
+    <br>
+    <div class="roll-badge"><b>24WH1A05P3</b></div>
+</div>
+
+<div class="stats">
+    <div class="stat-card">
+        <h2>1200+</h2>
+        <p>Participants</p>
+    </div>
+
+    <div class="stat-card">
+        <h2>80+</h2>
+        <p>Colleges</p>
+    </div>
+
+    <div class="stat-card">
+        <h2>30+</h2>
+        <p>Events</p>
+    </div>
+
+    <div class="stat-card">
+        <h2>₹1.5L+</h2>
+        <p>Prize Pool</p>
+    </div>
+</div>
+
+<form onsubmit="registerUser(event)">
+
+<div class="section-title">👤 Personal Information</div>
+
+<div class="grid">
+
+<div class="error-msg" id="emailError">⚠️ Please include an '@' in the email address. 'xyz' is missing an '@'.</div>
+
+<div class="field">
+<label>Full Name</label>
+<input type="text" id="name" placeholder="Enter full name">
+</div>
+
+<div class="field">
+<label>Email Address</label>
+<input type="email" id="email" placeholder="Enter email">
+</div>
+
+<div class="field">
+<label>Phone Number</label>
+<input type="tel" placeholder="Enter mobile number">
+</div>
+
+<div class="field">
+<label>Date of Birth</label>
+<input type="date">
+</div>
+
+<div class="field">
+<label>Gender</label>
+<select>
+<option>Female</option>
+<option>Male</option>
+<option>Other</option>
+</select>
+</div>
+
+<div class="field">
+<label>City</label>
+<input type="text" placeholder="Enter city">
+</div>
+
+</div>
+
+<div class="section-title">🎓 Academic Details</div>
+
+<div class="grid">
+
+<div class="field">
+<label>Roll Number</label>
+<input type="text" id="roll" placeholder="Enter roll number">
+</div>
+
+<div class="field">
+<label>College Name</label>
+<input type="text" id="college" placeholder="Enter college name">
+</div>
+
+<div class="field">
+<label>University</label>
+<input type="text" placeholder="Enter university">
+</div>
+
+<div class="field">
+<label>Department</label>
+<select>
+<option>CSE</option>
+<option>IT</option>
+<option>ECE</option>
+<option>EEE</option>
+<option>AIML</option>
+<option>Data Science</option>
+</select>
+</div>
+
+<div class="field">
+<label>Year of Study</label>
+<select>
+<option>1st Year</option>
+<option>2nd Year</option>
+<option>3rd Year</option>
+<option>4th Year</option>
+</select>
+</div>
+
+</div>
+
+<div class="section-title">🚀 Event Participation</div>
+
+<div class="grid">
+
+<div class="field">
+<label>Event Category</label>
+<select>
+<option>Hackathon</option>
+<option>AI Challenge</option>
+<option>Project Expo</option>
+<option>Startup Pitch</option>
+<option>Paper Presentation</option>
+</select>
+</div>
+
+<div class="field">
+<label>Team Size</label>
+<input type="number" min="1" max="10">
+</div>
+
+<div class="field full">
+<label>Technical Skills</label>
+<input type="text" placeholder="Java, Python, AI, Web Development">
+</div>
+
+<div class="field">
+<label>Emergency Contact</label>
+<input type="tel" placeholder="Emergency number">
+</div>
+
+<div class="field">
+<label>Accommodation Required</label>
+<select>
+<option>Yes</option>
+<option>No</option>
+</select>
+</div>
+
+<div class="field full">
+<label>Upload Resume</label>
+<input type="file">
+</div>
+
+<div class="field full">
+<label>Why do you want to participate?</label>
+<textarea rows="4" placeholder="Tell us about yourself and your interests"></textarea>
+</div>
+
+</div>
+
+<button class="submit-btn">
+✨ REGISTER NOW
+</button>
+
+<div id="success">
+🎉 Registration Successful! Welcome to BYTEVERSE 2026.
+</div>
+
+</form>
+
+<div class="footer">
+© 2026 BYTEVERSE | Future Innovation Summit
+</div>
+
+</div>
+
+<script>
+
+function registerUser(e){
+
+    e.preventDefault();
+
+    let name = document.getElementById("name").value;
+    let email = document.getElementById("email").value;
+    let college = document.getElementById("college").value;
+    let emailError = document.getElementById("emailError");
+
+    emailError.style.display = "none";
+
+    if(name === "" || email === "" || college === ""){
+        alert("Please fill all mandatory fields.");
+        return;
+    }
+
+    if(email.indexOf("@") === -1){
+        emailError.style.display = "block";
+        return;
+    }
+
+    document.getElementById("success").style.display = "block";
+}
+
+</script>
+
+</body>
+</html>
